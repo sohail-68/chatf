@@ -11,7 +11,7 @@ const useChatMessages = (currentUserId, recipientId, showNotification) => {
     const [unreadMessages, setUnreadMessages] = useState(0); // Tra
 
     // useEffect(() => {
-    //     const newSocket = io('http://localhost:5001');
+    //     const newSocket = io('https://chatb-vrft.onrender.com');
     //     setSocket(newSocket);
 
     //     newSocket.emit('joinRoom', currentUserId);

@@ -8,7 +8,7 @@ const Feed = () => {
     const fetchPosts = async () => {
       const token = localStorage
 .getItem('token');
-      const response = await axios.get('http://localhost:5001/api/posts', {
+      const response = await axios.get('https://chatb-vrft.onrender.com/api/posts', {
         headers: { Authorization: `Bearer ${token}` },
       });
       setPosts(response.data);

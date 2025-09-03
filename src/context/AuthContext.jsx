@@ -26,7 +26,7 @@ export const ChatMessagesProvider = ({ children }) => {
 
   const fetchSuggestedUsers = async () => {
     try {
-      const response = await axios.get('http://localhost:5001/api/auth/getfolow', {
+      const response = await axios.get('https://chatb-vrft.onrender.com/api/auth/getfolow', {
         headers: {
           Authorization: token,
         },
@@ -47,7 +47,7 @@ export const ChatMessagesProvider = ({ children }) => {
   useEffect(() => {
     if (!currentUserId || suggestedUsers.length === 0) return;
 
-    const newSocket = io('http://localhost:5001');
+    const newSocket = io('https://chatb-vrft.onrender.com');
     setSocket(newSocket);
 
     newSocket.emit('joinRoom', currentUserId);

@@ -38,7 +38,7 @@ const Sidebar = () => {
   const { messages, unreadMessages, setSocket, setMessages, setUnreadMessages } = useChatMessages();
 
   useEffect(() => {
-    const newSocket = io('http://localhost:5001');
+    const newSocket = io('https://chatb-vrft.onrender.com');
     setSocket(newSocket);
   
     // Join room
@@ -70,7 +70,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       // Optional API call to backend if needed
-      await axios.post("http://localhost:5001/api/auth/logout", {}, {
+      await axios.post("https://chatb-vrft.onrender.com/api/auth/logout", {}, {
         headers: {
           Authorization: `${sessionStorage.getItem("token")}`,
         },

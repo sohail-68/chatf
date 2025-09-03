@@ -27,7 +27,7 @@
 //     const [isTyping, setIsTyping] = useState(false);
 // const navigate=useNavigate()
 //     useEffect(() => {
-//         const newSocket = io('http://localhost:5001');
+//         const newSocket = io('https://chatb-vrft.onrender.com');
 //         setSocket(newSocket);
 
 //         // Join room
@@ -108,7 +108,7 @@
 //     const fetchUserProfile = async () => {
 //         try {
 //             const profileResponse = await axios.get(
-//                 `http://localhost:5001/api/auth/userpro/${recipientId}`,
+//                 `https://chatb-vrft.onrender.com/api/auth/userpro/${recipientId}`,
 //                 { headers: { Authorization: `${sessionStorage
 // .getItem('token')}` } }
 //             );
@@ -230,14 +230,14 @@ export default function Chat() {
   useEffect(() => {
     if (!currentUserId) return;
 
-    const socket = io("http://localhost:5001");
+    const socket = io("https://chatb-vrft.onrender.com");
     socketRef.current = socket; // save in ref
 
     socket.emit("join", currentUserId);
 
     // Fetch old messages
     axios
-      .get(`http://localhost:5001/api/messages/${receiverId}`, {
+      .get(`https://chatb-vrft.onrender.com/api/messages/${receiverId}`, {
         headers: { Authorization: sessionStorage.getItem("token") },
       })
       .then((res) => setMessages(res.data))
@@ -245,7 +245,7 @@ export default function Chat() {
 
     // Fetch user profile
     axios
-      .get(`http://localhost:5001/api/auth/userpro/${receiverId}`, {
+      .get(`https://chatb-vrft.onrender.com/api/auth/userpro/${receiverId}`, {
         headers: { Authorization: sessionStorage.getItem("token") },
       })
       .then((res) => setUserData(res.data))

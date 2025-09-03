@@ -27,7 +27,7 @@ const location=useLocation()
 
 
     useEffect(() => {
-      const newSocket = io('http://localhost:5001');
+      const newSocket = io('https://chatb-vrft.onrender.com');
       setSocket(newSocket);
     
       // Join room

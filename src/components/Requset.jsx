@@ -11,7 +11,7 @@ const Request = () => {
   const fetchFollowRequests = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5001/api/auth/users/follow-requests",
+        "https://chatb-vrft.onrender.com/api/auth/users/follow-requests",
         {
           headers: { Authorization: `${token}` },
         }
@@ -31,7 +31,7 @@ const Request = () => {
   const handleRespond = async (requesterId, action) => {
     try {
       const res = await axios.post(
-        "http://localhost:5001/api/auth/users/follow-request/respond",
+        "https://chatb-vrft.onrender.com/api/auth/users/follow-request/respond",
         { requesterId, action },
         { headers: { Authorization: `${token}` } }
       );
