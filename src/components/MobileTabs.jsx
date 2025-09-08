@@ -23,41 +23,13 @@ const MobileTabs = () => {
   const { messages, unreadMessages, setSocket, setMessages, setUnreadMessages } = useChatMessages();
 
 
-const location=useLocation()
 
 
-    useEffect(() => {
-      const newSocket = io('https://chatb-vrft.onrender.com');
-      setSocket(newSocket);
-    
-      // Join room
-      newSocket.emit('joinRoom', sessionStorage.getItem("userid"));
-    
-      // Listen for messages
-      newSocket.on('receiveMessage', (msg) => {
-        setMessages((prev) => [...prev, msg]);
-        setUnreadMessages((prev) => prev + 1);
-      });
-    
-      // Cleanup
-      return () => {
-        newSocket.off('receiveMessage'); // Ensure listener is removed
-        newSocket.disconnect();
-      };
-    }, [setMessages, setSocket, setUnreadMessages]);
-  
-    useEffect(() => {
-      if (location.pathname === "/messages") {
-        setUnreadMessages(0); // Reset unread messages on Messages page
-      }
-    }, [location.pathname, setUnreadMessages]);
-  
-    useEffect(() => {
-    }, [unreadMessages]);
+ 
   
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-black border-t shadow-md z-50 flex justify-between px-6 py-2 md:hidden">
+    <div className="fixed bottom-0 left-0 right-0 bg-slate-950 rounded-xl border-t shadow-md z-50 flex justify-between px-6 py-2 md:hidden">
       {tabs.map((tab, index) => {
         const Icon = tab.icon;
         return (
@@ -79,7 +51,7 @@ const location=useLocation()
                 </span>
               )} */}
             </div>
-            <span className="text-xs">{tab.label}{unreadMessages}</span>
+            <span className="text-xs">{tab.label}</span>
           </NavLink>
         );
       })}

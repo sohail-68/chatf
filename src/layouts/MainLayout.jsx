@@ -14,7 +14,7 @@ const MainLayout = ({ children }) => {
   return (
     <div className="flex flex-col h-screen">
       <Header />
-      <div className="flex">
+      <div className="flex ">
         <Sidebar />
         <div className="md:ml-64 flex-1 ">
           {children}

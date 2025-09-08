@@ -5,23 +5,29 @@ import { useChatMessages } from '../context/AuthContext'; // Make sure this path
 
 const Messgesss = () => {
   // Destructure values from the ChatMessages context
-  const { messages, currentUserId, suggestedUsers, setMessages } = useChatMessages();
+  const {  suggestedUsers ,notification, } = useChatMessages();
   const navigate = useNavigate();
 
-  const handleFollow = (userId) => {
+  const Chat = (userId) => {
     navigate(`/message/${userId}`);
-
-    // Optionally clear cached messages from localStorage (if needed)
-    setMessages([])
-    // localStorage.removeItem('chatMessages');
   };
+  console.log(notification);
+  
 
-  // This effect ensures messages are stored locally when messages change (optional)
-  useEffect(() => {
-    // Optionally: You can store messages locally or do any side effect here
-    localStorage.setItem('chatMessages', JSON.stringify(messages));
-  }, [messages]);
-console.log(messages);
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   return (
     <div className="max-w-2xl mx-auto mt-6 px-4 py-6  rounded-xl shadow-md">
@@ -47,24 +53,13 @@ console.log(messages);
                   Joined: {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
                 </p>
 
-                {/* Display last message with this user */}
-                {messages
-                  .filter((msg) =>
-                    (msg.senderId === user._id && msg.receiverId === currentUserId) ||
-                    (msg.senderId === currentUserId && msg.receiverId === user._id)
-                  )
-                  .slice(-1)
-                  .map((msg, i) => (
-                    <p key={i} className="text-sm text-gray-600 italic truncate max-w-xs">
-                      {msg.message}
-                    </p>
-                  ))}
+              
               </div>
             </div>
 
             {/* Button to navigate to the message page */}
             <button
-              onClick={() => handleFollow(user._id)}
+              onClick={() => Chat(user._id)}
               className="flex items-center gap-2 text-sm font-semibold text-blue-600 border border-blue-600 px-3 py-1.5 rounded-md hover:bg-blue-50 hover:shadow-sm transition"
             >
               <FaPaperPlane className="text-blue-600" />

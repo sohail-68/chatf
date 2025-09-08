@@ -6,12 +6,13 @@ const useChatMessages = (currentUserId, recipientId, showNotification) => {
     const [messages, setMessages] = useState([]);
     const [socket, setSocket] = useState(null);
   const [bookmarks, setbookmarks] = useState([]);
+  const [notification, setNotifications] = useState([]);
 
     const [isTyping, setIsTyping] = useState(false);
     const [unreadMessages, setUnreadMessages] = useState(0); // Tra
 
     // useEffect(() => {
-    //     const newSocket = io('https://chatb-vrft.onrender.com');
+    //     const newSocket = io('http://localhost:5001');
     //     setSocket(newSocket);
 
     //     newSocket.emit('joinRoom', currentUserId);
@@ -46,7 +47,7 @@ const useChatMessages = (currentUserId, recipientId, showNotification) => {
         }
     };
 
-    return { messages,bookmarks,setbookmarks, setMessages,setUnreadMessages,unreadMessages,socket, isTyping,setSocket, handleTyping };
+    return { messages,bookmarks,setbookmarks, setMessages,setUnreadMessages,unreadMessages,socket, isTyping,setSocket, handleTyping,notification, setNotifications };
 };
 
 export default useChatMessages;

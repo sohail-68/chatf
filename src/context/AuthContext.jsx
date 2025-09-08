@@ -11,7 +11,7 @@ export const ChatMessagesProvider = ({ children }) => {
   const [currentUserId, setCurrentUserId] = useState(null);
   const [suggestedUsers, setSuggestedUsers] = useState([]);
   const [token, settoken] = useState("");
-
+  const [notification, setNotifications]=useState([])
   // Set current user ID
 
 
@@ -68,7 +68,7 @@ export const ChatMessagesProvider = ({ children }) => {
 
   return (
     <ChatMessagesContext.Provider
-      value={{ messages, setMessages, socket,fetchSuggestedUsers, setSocket, settoken, currentUserId, setCurrentUserId, suggestedUsers }}
+      value={{ messages, setMessages, socket,fetchSuggestedUsers, setSocket, settoken, currentUserId, setCurrentUserId, suggestedUsers,notification, setNotifications }}
     >
       {children}
     </ChatMessagesContext.Provider>

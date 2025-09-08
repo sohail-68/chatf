@@ -103,7 +103,7 @@ const Post = ({ post, handleDeleteSuccess }) => {
       if (!token) throw new Error("User not authenticated");
   
       await axios.post(
-        `https://chatb-vrft.onrender.com/api/auth/bookmark/${data}`,
+        `http://localhost:5001/api/auth/bookmark/${data}`,
         {},
         { headers: { Authorization: `${token}` } }
       );
@@ -137,168 +137,162 @@ const Post = ({ post, handleDeleteSuccess }) => {
   };
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      animate="visible"
-      exit="exit"
-      className="relative rounded-3xl backdrop-blur-md   bg-white/30 shadow-xl border border-white/20 pt-3  xl:p-5 max-xl:p-3 mb-8"
-
+  <motion.div
+  variants={containerVariants}
+  initial="hidden"
+  animate="visible"
+  exit="exit"
+  className="relative rounded-2xl backdrop-blur-md bg-white/40 shadow-xl border border-white/30 p-4 mb-6"
+>
+  {/* Header */}
+  <div className="flex items-center gap-3 mb-3">
+    <img
+      src={post.user.profilePicture}
+      alt="Profile"
+      className="w-11 h-11 rounded-full object-cover ring-2 ring-white"
+    />
+    <h6
+      className="text-gray-900 font-semibold hover:underline cursor-pointer text-base"
+      onClick={openUserProfile}
     >
-  <div className="flex items-center gap-3">
-  <img
-    src={post.user.profilePicture}
-    alt="Profile"
-    className="w-10 h-10 rounded-full object-cover ring-2 ring-white"
-  />
-  <h6
-    className="text-gray-900 font-semibold hover:underline cursor-pointer text-base"
-    onClick={openUserProfile}
-  >
-    {post.user.username}
-  </h6>
+      {post.user.username}
+    </h6>
+  </div>
 
-</div>
-
-
-      {post.image && (
-        <motion.div
-          className="mb-4 xl:p-2 max-xl:p-0 "
-        >
-          <img
-            src={post.image}
-            alt="Post"
-            className="w-full mt-2 object-contain rounded-lg"
-          />
-        </motion.div>
-      )}
-
-      <div className="space-y-3">
-        <motion.p
-          ref={ref}
-          className="text-lg xl:max-w-sm max-md:max-w-xs font-semibold text-gray-800 bg-gray-100 p-3 rounded-lg shadow-md"
-          initial={{ opacity: 0 ,y:-1000}}
-          animate={{ opacity: 1 ,y:0, transition: { duration: 2 }}}
-        >
-             <span className="font-bold text-gray-900">Caption</span>
-
-        :{post.caption ? post.caption.toUpperCase() : "No Caption Provided"}
-        </motion.p>
-
-        {/* Mood */}
-        <motion.p
-          ref={ref}
-     className="text-lg xl:max-w-sm max-md:max-w-xs font-semibold text-gray-800 bg-gray-100 p-3 rounded-lg shadow-md"
-          initial={{ opacity: 0 ,x:-1000}}
-          animate={{ opacity: 1 ,x:0, transition: { duration: 2 }}}
-        >
-          <span className="font-bold text-gray-900">Mood:</span>
-          {post.mood === "Normal"
-            ? `${post.mood} ${moods.normal}`
-            : post.mood === "Sad"
-            ? `${post.mood} ${moods.sad}`
-            : post.mood === "Happy"
-            ? `${post.mood} ${moods.happy}`
-            : "Unknown"}
-        </motion.p>
-      </div>
-      <div className="flex mb-3  relative top-5 gap-4">
-  {/* Like Button */}
-  <motion.button
-    onClick={handleLike}
-    className="group flex items-center gap-1 text-gray-700 hover:text-red-500 transition-all duration-300"
-    aria-label={liked ? "Unlike post" : "Like post"}
-    whileTap={{ scale: 0.9 }}
-    initial={{ y: -1000 }}
-    animate={{ opacity: 1, y: 0, transition: { duration: 2 } }}
-  >
-    {liked ? (
-      <Heart className="w-6 h-6 fill-red-500 text-red-500 group-hover:scale-110 transition-all duration-300" />
-    ) : (
-      <Heart className="w-6 h-6 group-hover:text-red-500 group-hover:scale-110 transition-all duration-300" />
-    )}
-    <span className="text-sm font-medium">{likesCount}</span>
-  </motion.button>
-
-  {/* Save Button */}
-  <motion.button
-    onClick={() => handleSave(post._id)}
-    className="group flex items-center gap-1 text-gray-700 hover:text-blue-500 transition-all duration-300"
-    whileTap={{ scale: 0.9 }}
-    initial={{ y: -1000 }}
-    animate={{ opacity: 1, y: 0, transition: { duration: 2 } }}
-  >
-    <Bookmark className="w-6 h-6 group-hover:text-blue-500 group-hover:scale-110 transition-all duration-300" />
-    <span className="text-sm font-medium">Save</span>
-  </motion.button>
-
-  {/* Comment Button */}
-  <motion.button
-    onClick={() => toggleMenu("comment")}
-    className="group flex items-center gap-1 text-gray-700 hover:text-green-500 transition-all duration-300"
-    whileTap={{ scale: 0.9 }}
-    initial={{ y: -1000 }}
-    animate={{ opacity: 1, y: 0, transition: { duration: 2 } }}
-  >
-    <MessageCircleMore className="w-6 h-6 group-hover:text-green-500 group-hover:scale-110 transition-all duration-300" />
-    <span className="text-sm font-medium">Comment</span>
-  </motion.button>
-</div>
-
-
-      {menu === "comment" && (
-        <motion.form
-          onSubmit={handleComment}
-          className="flex items-center gap-2 mt-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, transition: { duration: 0.3 } }}
-        >
-          <input
-            type="text"
-            placeholder="Add a comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="border rounded p-2 w-full text-sm"
-          />
-          <button type="submit" className="text-blue-500">
-            Post
-          </button>
-        </motion.form>
-      )}
-
-      {menu === "menu" && (
-        <motion.div
-          className=""
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1, transition: { duration: 0.3 } }}
-          exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
-        >
-          <button
-            className="text-blue-800 font-semibold hover:text-white mb-2 block"
-            onClick={handleEdit}
-          >
-            Edit
-          </button>
-          <button
-            className="text-red-500 hover:text-red-700"
-            onClick={handleDelete}
-          >
-            Delete
-          </button>
-        </motion.div>
-      )}
- <ToastContainer
-  position="top-right"
-  autoClose={2000} // Automatically close after 2 seconds
-  hideProgressBar={false} // Show a progress bar
-  newestOnTop // Keep the newest notifications on top
-  closeOnClick // Allow users to close by clicking
-  pauseOnHover // Pause the timer when hovered
-  draggable // Allow dragging to dismiss
-  theme="colored" // Use a colored theme
-/>
-
+  {/* Post Image */}
+  {post.image && (
+    <motion.div className="mb-4 rounded-xl overflow-hidden">
+      <img
+        src={post.image}
+        alt="Post"
+        className="w-full object-cover rounded-xl shadow"
+      />
     </motion.div>
+  )}
+
+  {/* Caption */}
+  {post.caption && (
+    <motion.p
+      ref={ref}
+      className="text-base font-medium text-gray-800 bg-gray-100 px-4 py-2 rounded-xl shadow-sm"
+      initial={{ opacity: 0, y: -50 }}
+      animate={{ opacity: 1, y: 0, transition: { duration: 0.6 } }}
+    >
+      <span className="font-bold text-gray-900">Caption: </span>
+      {post.caption}
+    </motion.p>
+  )}
+
+  {/* Mood */}
+  <motion.p
+    ref={ref}
+    className="text-base font-medium text-gray-700 bg-gray-100 px-4 py-2 rounded-xl shadow-sm mt-2"
+    initial={{ opacity: 0, x: -50 }}
+    animate={{ opacity: 1, x: 0, transition: { duration: 0.6 } }}
+  >
+    <span className="font-bold text-gray-900">Mood: </span>
+    {post.mood === "Normal"
+      ? `${post.mood} ${moods.normal}`
+      : post.mood === "Sad"
+      ? `${post.mood} ${moods.sad}`
+      : post.mood === "Happy"
+      ? `${post.mood} ${moods.happy}`
+      : "Unknown"}
+  </motion.p>
+
+  {/* Actions */}
+  <div className="flex items-center gap-6 mt-4">
+    {/* Like */}
+    <motion.button
+      onClick={handleLike}
+      className="flex items-center gap-2 text-gray-700 hover:text-red-500 transition"
+      whileTap={{ scale: 0.9 }}
+    >
+      {liked ? (
+        <Heart className="w-6 h-6 fill-red-500 text-red-500 transition" />
+      ) : (
+        <Heart className="w-6 h-6 transition" />
+      )}
+      <span className="text-sm font-medium">{likesCount}</span>
+    </motion.button>
+
+    {/* Save */}
+    <motion.button
+      onClick={() => handleSave(post._id)}
+      className="flex items-center gap-2 text-gray-700 hover:text-blue-500 transition"
+      whileTap={{ scale: 0.9 }}
+    >
+      <Bookmark className="w-6 h-6 transition" />
+      <span className="text-sm font-medium">Save</span>
+    </motion.button>
+
+    {/* Comment */}
+    <motion.button
+      onClick={() => toggleMenu("comment")}
+      className="flex items-center gap-2 text-gray-700 hover:text-green-500 transition"
+      whileTap={{ scale: 0.9 }}
+    >
+      <MessageCircleMore className="w-6 h-6 transition" />
+      <span className="text-sm font-medium">Comment</span>
+    </motion.button>
+  </div>
+
+  {/* Comment Input */}
+  {menu === "comment" && (
+    <motion.form
+      onSubmit={handleComment}
+      className="flex items-center gap-2 mt-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.3 } }}
+    >
+      <input
+        type="text"
+        placeholder="Add a comment..."
+        value={comment}
+        onChange={(e) => setComment(e.target.value)}
+        className="flex-1 border rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
+      />
+      <button type="submit" className="text-blue-600 font-medium">
+        Post
+      </button>
+    </motion.form>
+  )}
+
+  {/* Edit/Delete Menu */}
+  {menu === "menu" && (
+    <motion.div
+      className="mt-3 space-y-2"
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1, transition: { duration: 0.3 } }}
+      exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.3 } }}
+    >
+      <button
+        className="w-full text-left px-3 py-1.5 rounded-md text-blue-600 font-medium hover:bg-blue-100"
+        onClick={handleEdit}
+      >
+        Edit
+      </button>
+      <button
+        className="w-full text-left px-3 py-1.5 rounded-md text-red-600 font-medium hover:bg-red-100"
+        onClick={handleDelete}
+      >
+        Delete
+      </button>
+    </motion.div>
+  )}
+
+  <ToastContainer
+    position="top-right"
+    autoClose={2000}
+    hideProgressBar={false}
+    newestOnTop
+    closeOnClick
+    pauseOnHover
+    draggable
+    theme="colored"
+  />
+</motion.div>
+
   );
 };
 

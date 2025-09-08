@@ -6,7 +6,7 @@ import { ImagetoBase64 } from "../utility/ImagetoBase64.js";
 import { FaBookmark, FaHeart, FaTrashAlt } from "react-icons/fa";
 import useChatMessages from "../hooks/useChatMessages.jsx";
 import { Del } from "../services/api.jsx";
-import { Pencil, Trash2 } from "lucide-react";
+import { Camera, Edit3, Pencil, Save, Trash2, User, X } from "lucide-react";
 const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [show, setShow] = useState(true);
@@ -220,270 +220,334 @@ function Chnage(){
   navigate("/changepassword")
 }
   return (
-   <div className={`h-screen`}>
-     <div className=" bg-white shadow-lg rounded-lg p-4">
-    
+   <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Main Profile Card */}
+      <div className="max-w-6xl mx-auto p-6">
+        <div className="bg-white/80 backdrop-blur-sm shadow-2xl rounded-3xl p-8 border border-white/20">
 
-      {/* Profile Info */}
-      <div className=" flex lg:flex-row xl:flex-row max-lg:flex-col max-md:flex-row max-md:gap-4 max-md:justify-center max-md:items-center max-sm:flex-row max-sm:gap-2 max-sm:justify-center max-sm:flex max-sm:items-center items-center xl:mt-1 max-xl:mt-2">
-        <div className="flex flex-col gap-1">
-        <div className="w-32 h-32 md:w-40 md:h-40 bg-gray-200 rounded-full overflow-hidden">
-          {formData.profilePicture ? (
-            <img
-              src={formData.profilePicture} // Show uploaded or existing profile picture
-              alt={`${formData.username}'s profile`}
-              className="object-cover w-full h-full"
-            />
-          ) : (
-            <div className="flex items-center justify-center h-full text-gray-400">
-              No Image
+          {/* Profile Header Section */}
+          <div className="flex lg:flex-row  items-center gap-8">
+            
+            {/* Profile Picture Section */}
+            <div className="relative group">
+              <div className="w-36 h-36 md:w-44 md:h-44 relative">
+                {/* Gradient border ring */}
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 rounded-full p-1 animate-pulse">
+                  <div className="w-full h-full bg-white rounded-full p-1">
+                    <div className="w-full h-full rounded-full overflow-hidden">
+                      {formData.profilePicture ? (
+                        <img
+                          src={formData.profilePicture}
+                          alt={`${formData.username}'s profile`}
+                          className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full text-gray-400 bg-gradient-to-br from-gray-100 to-gray-200">
+                          <User className="w-16 h-16" />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Camera overlay for edit mode */}
+                {editMode && (
+                  <div className="absolute inset-0 bg-black/50 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <Camera className="w-8 h-8 text-white" />
+                  </div>
+                )}
+              </div>
+              
+              {/* Upload Button */}
+              {editMode && (
+                <div className="mt-4 text-center">
+                  <label
+                    htmlFor="file-upload"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full cursor-pointer hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                  >
+                    <Camera className="w-4 h-4" />
+                    Change Photo
+                  </label>
+                  <input
+                    id="file-upload"
+                    type="file"
+                    name="profilePicture"
+                    onChange={handleChange}
+                    className="hidden"
+                    accept="image/*"
+                  />
+                </div>
+              )}
             </div>
-          )}
-     
-        </div>   <div className="flex flex-col items-center">
-    
-    {
-      editMode &&   <label
-      htmlFor="file-upload"
-      className="custom-file-upload border border-gray-300 rounded-md py-2 px-4 cursor-pointer hover:bg-blue-50 transition duration-200 ease-in-out"
-    >
-      Custom Upload
-    </label>
-    }
-     {
-      editMode &&
+
+            {/* User Info Section */}
+          <div className="flex text-center">
+  {editMode ? (
+    <div className="space-y-4">
       <input
-      id="file-upload"
-      type="file"
-      name="profilePicture"
-      onChange={handleChange}
-      className="hidden" // Hide the file input
-    />
-     }
+        type="text"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+        placeholder="Enter your username"
+        className="w-full px-6 py-3 text-xl font-semibold bg-white/70 backdrop-blur-sm border-2 border-blue-200 rounded-2xl focus:outline-none focus:border-blue-400 focus:shadow-lg transition-all duration-300"
+      />
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        className="w-full px-6 py-3 bg-white/70 backdrop-blur-sm border-2 border-blue-200 rounded-2xl focus:outline-none focus:border-blue-400 focus:shadow-lg transition-all duration-300"
+      />
+      <textarea
+        name="bio"
+        value={formData.bio}
+        onChange={handleChange}
+        className="w-full px-6 py-3 bg-white/70 backdrop-blur-sm border-2 border-blue-200 rounded-2xl focus:outline-none focus:border-blue-400 focus:shadow-lg transition-all duration-300 resize-none"
+        placeholder="Tell us about yourself..."
+        rows="3"
+      />
     </div>
-        </div>
+  ) : (
+    <div className="space-y-3">
+      <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+        {formData.username}
+      </h1>
+      <p className="text-lg text-gray-600 flex items-center justify-center gap-2">
+        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+        {formData.email}
+      </p>
+      <p className="text-gray-700 leading-relaxed max-w-md mx-auto">
+        {formData.bio || "No bio available"}
+      </p>
+    </div>
+  )}
+</div>
 
-   
+          </div>
 
-        {/* User Info */}
-        <div className="mt-4 md:mt-0 md:ml-6 flex-grow">
-          {editMode ? (
-            <>
-            <input
-  type="text"
-  name="username"
-  value={formData.username}
-  onChange={handleChange}
-  placeholder="Enter your username"
-  className="block w-full px-4 py-2 mb-4 text-md text-black bg-transparent border border-white rounded-lg placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
-/>
+          {/* Stats Section */}
+          <div className="mt-12 grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="group relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl border border-blue-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-blue-200 rounded-full -mr-8 -mt-8 opacity-50 group-hover:scale-150 transition-transform duration-300"></div>
+              <div className="relative">
+                <div className="text-3xl font-bold text-blue-700 mb-1">
+                  {user?.followers.length.toLocaleString()}
+                </div>
+                <div className="text-blue-600 font-medium">Followers</div>
+              </div>
+            </div>
+            
+            <div className="group relative overflow-hidden bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl border border-purple-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-purple-200 rounded-full -mr-8 -mt-8 opacity-50 group-hover:scale-150 transition-transform duration-300"></div>
+              <div className="relative">
+                <div className="text-3xl font-bold text-purple-700 mb-1">
+                  {user?.following.length.toLocaleString()}
+                </div>
+                <div className="text-purple-600 font-medium">Following</div>
+              </div>
+            </div>
+            
+            <div className="group relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl border border-green-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-green-200 rounded-full -mr-8 -mt-8 opacity-50 group-hover:scale-150 transition-transform duration-300"></div>
+              <div className="relative">
+                <div className="text-3xl font-bold text-green-700 mb-1">
+                  {count.toLocaleString()}
+                </div>
+                <div className="text-green-600 font-medium">Posts</div>
+              </div>
+            </div>
+            
+            <div className="group relative overflow-hidden bg-gradient-to-br from-amber-50 to-amber-100 p-6 rounded-2xl border border-amber-200 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-amber-200 rounded-full -mr-8 -mt-8 opacity-50 group-hover:scale-150 transition-transform duration-300"></div>
+              <div className="relative">
+                <div className="text-3xl font-bold text-amber-700 mb-1">
+                  {user?.bookmarks.length}
+                </div>
+                <div className="text-amber-600 font-medium">Bookmarks</div>
+              </div>
+            </div>
+          </div>
 
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="block w-full px-4 py-2 mb-4 text-md text-black bg-transparent border border-white rounded-lg placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
-
-              />
-              <textarea
-                name="bio"
-                value={formData.bio}
-                onChange={handleChange}
-                className="block w-full px-4 py-2 mb-1 text-md text-black bg-transparent border border-white rounded-lg placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-300"
-
-                placeholder="Bio"
-              />
-            </>
-          ) : (
-            <>
-              <h2 className="text-2xl font-semibold text-gray-800">
-                {formData.username}
-              </h2>
-              <p className="text-gray-600">{formData.email}</p>
-              <p className="text-gray-500 mt-2">
-                {formData.bio || "No bio available"}
-              </p>
-            </>
-          )}
-        </div>
-      </div>
-
-      {/* Stats */}
-      <div className="mt-8 p-1 grid max-lg:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 text-center">
-        <div className="p-4 bg-blue-50 rounded-lg shadow-md hover:bg-blue-100">
-          <span className="block text-2xl font-bold text-blue-700">
-            {user?.followers.length}
-          </span>
-          <span className="text-blue-600">Followers</span>
-        </div>
-        <div className="p-4 bg-purple-50 rounded-lg shadow-md hover:bg-purple-100">
-          <span className="block text-2xl font-bold text-purple-700">
-            {user?.following.length}
-          </span>
-          <span className="text-purple-600">Following</span>
-        </div>
-        <div className="p-4 bg-green-50 rounded-lg shadow-md hover:bg-green-100">
-          <span className="block text-2xl font-bold text-green-700">
-            {count}
-          </span>
-          <span className="text-green-600">Posts</span>
-        </div>
-        <div className="p-4 bg-yellow-50 rounded-lg shadow-md hover:bg-yellow-100">
-          <span className="block text-2xl font-bold text-yellow-700">
-            {user?.bookmarks.length}
-          </span>
-          <span className="text-yellow-600">Bookmarks</span>
-        </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="mt-6 space-x-4 pb-2 ">
-        {editMode ? (
-          <>
+          {/* Action Buttons */}
+          <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start">
+            {editMode ? (
+              <>
+                <button
+                  onClick={handleSave}
+                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-2xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-medium"
+                >
+                  <Save className="w-4 h-4" />
+                  Save Changes
+                </button>
+                <button
+                  onClick={toggleEditMode}
+                  className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-2xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-medium"
+                >
+                  <X className="w-4 h-4" />
+                  Cancel
+                </button>
+              </>
+            ) : (
+              <button
+                onClick={toggleEditMode}
+                className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-2xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-medium"
+              >
+                <Edit3 className="w-4 h-4" />
+                Edit Profile
+              </button>
+            )}
+            
             <button
-              onClick={handleSave}
-              className="px-4 py-2 bg-green-500 text-white rounded-lg"
+              onClick={Chnage}
+              className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white rounded-2xl hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-medium"
             >
-              Save
+              Change Password
             </button>
-            <button
-              onClick={toggleEditMode}
-              className="px-4 py-2 bg-gray-500 text-white rounded-lg"
-            >
-              Cancel
-            </button>
-          </>
-        ) : (
+          </div>
+        </div>
+
+        {/* Floating Action Buttons */}
+        <div className="fixed  xl:top-2 xl:right-8 lg:top-2 lg:right-6 md:top-6 md:right-6 max-md:top-2 max-md:right-6 z-50 flex gap-3">
           <button
-            onClick={toggleEditMode}
-            className="px-4 py-2 bg-gray-950 text-white rounded-lg"
+            onClick={del}
+            aria-label="Remove all bookmarks"
+            className="group relative p-4 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200"
           >
-            Edit Profile
-          </button>
+            <FaTrashAlt className="w-4 h-4" />
           
 
-        )}
-      
-      </div>
-      <button
-            onClick={()=>Chnage()}
-            className="px-4 py-2  bg-gray-900 text-white rounded-lg"
-          >
-        Change Password
           </button>
 
-
-    </div>
-    <div className="fixed xl:top-5 xl:right-28 z-50 flex xl:gap-2 lg:top-4 lg:right-20 lg:gap-1 md:top-4 md:gap-1 max-md:gap-1 md:right-20 max-md:top-4 max-md:right-20">
-  <button
-  onClick={del}
-  aria-label="Remove all bookmarks"
-  className="flex items-center gap-2 px-3 py-3 bg-red-600 text-white font-semibold rounded-lg shadow-md hover:bg-red-700 active:scale-95 transition-transform duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-red-300"
->
-  <FaTrashAlt className="text-white" />
-</button>
-
-  {/* Show Bookmarks Button */}
-{
-  bookmarks.length && (
-    <button
-    onClick={() => setShow(!show)}
-    className="px-4 py-2 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition-colors duration-200 ease-in-out"
-  >
-    {show &&   <FaBookmark />}
-  </button>
-  )
-}
-</div>
-
-
-<div className={`grid gap-4 p-3 mt-3 ${use.length ? 'h-screen':''} sm:grid-cols-2 lg:grid-cols-3`}>
-  {use.map((item, index) => (
-    <div
-      key={index}
-      className="relative bg-white h-[500px] flex flex-col justify-between shadow-md rounded-lg overflow-hidden hover:scale-95 transition-all"
-    >
-      {/* Delete Button - floating top-right */}
-      <button
-        onClick={() => handleDelete(item._id)}
-        className="absolute top-2 right-2 p-1 bg-white/70 rounded-full hover:bg-red-100 z-10 transition"
-        title="Delete"
-      >
-        <Trash2 className="w-5 h-5 text-red-600 hover:text-red-800" />
-      </button>
-
-      {/* Image Section - fills most of the card */}
-      <div className="flex-1">
-        <img
-          src={item.image}
-          alt={`Post ${index}`}
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      {/* Info Section */}
-      <div className="p-3 bg-white">
-        <p className="text-sm font-medium">
-          <strong>Caption:</strong> {item.caption || "No caption"}
-        </p>
-        <p className="text-sm font-medium">
-          <strong>Mood:</strong>{" "}
-          {Object.keys(moods).includes(item.mood)
-            ? `${item.mood} ${moods[item.mood]}`
-            : "Unknown 😶"}
-        </p>
-      </div>
-    </div>
-  ))}
-</div>
-
-
-
-{
-  bookmarks.length!==0 ? (
-    <div
-    className={`fixed overflow-auto scroll-smooth h-screen flex-col-reverse bg-gradient-to-b from-gray-900 to-black p-6 shadow-xl top-20 right-0 transition-transform duration-300 ${
-      show ? "translate-x-full" : "translate-x-0"
-    } custom-scrollbar`}
-  >
-    <div className="flex justify-center items-center xl:flex-col gap-4 max-md:flex-col">
-      {bookmarks.map((item, index) => (
-        <div
-          key={index}
-          className="p-5 shadow-lg rounded-lg mb-6 flex flex-col items-start bg-gray-800 hover:shadow-xl transition-shadow duration-300"
-        >
-          <div className="bg-gray-200 rounded-lg overflow-hidden mb-3 w-24 h-24">
-            <img
-              src={item.image}
-              alt="Bookmarked post"
-              className="object-cover w-full h-full transition-transform duration-200 hover:scale-105"
-            />
-          </div>
-  
-          <p className="text-gray-100 font-semibold mb-1">{item.caption}</p>
-  
-          <p className="text-gray-400 text-sm mb-2">
-            {item.comments.length > 0
-              ? `Comments: ${item.comments.length}`
-              : "No comments"}
-          </p>
-  
-          {item.likes.length > 0 && (
-            <div className="flex items-center text-red-500">
-              <FaHeart className="mr-2" />
-              <span>{item.likes.length}</span>
-            </div>
+          {bookmarks.length > 0 && (
+            <button
+              onClick={() => setShow(!show)}
+              className="group relative p-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-110 transition-all duration-200"
+            >
+              <FaBookmark className="w-5 h-5" />
+              
+            </button>
           )}
         </div>
-      ))}
+                       
+
+        {/* Posts Grid */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+            <div className="w-1 h-8 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+            My Posts
+          </h2>
+          
+          <div className={`grid gap-6 ${use.length ? '' : 'min-h-[200px]'} sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4`}>
+            {use.map((item, index) => (
+              <div
+                key={index}
+                className="group relative bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-300"
+              >
+                {/* Delete Button */}
+                <button
+                  onClick={() => handleDelete(item._id)}
+                  className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full opacity-0 group-hover:opacity-100 hover:bg-red-50 z-10 transition-all duration-200"
+                  title="Delete Post"
+                >
+                  <Trash2 className="w-4 h-4 text-red-600" />
+                </button>
+
+                {/* Image */}
+                <div className="aspect-square overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={`Post ${index}`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                </div>
+
+                {/* Content */}
+                <div className="p-4 bg-gradient-to-t from-white to-gray-50">
+                  <p className="text-sm font-medium text-gray-800 mb-2 line-clamp-2">
+                    <strong className="text-gray-900">Caption:</strong> {item.caption || "No caption"}
+                  </p>
+                  <p className="text-sm font-medium text-gray-600">
+                    <strong className="text-gray-800">Mood:</strong>{" "}
+                    {Object.keys(moods).includes(item.mood)
+                      ? `${item.mood} ${moods[item.mood]}`
+                      : "Unknown 😶"}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Bookmarks Sidebar */}
+      {
+        <div
+          className={`fixed top-0 right-0 h-full w-80 bg-gradient-to-b from-gray-900 via-gray-800 to-black   shadow-2xl transform transition-transform duration-500 ease-in-out z-40 ${
+            show ? "translate-x-full" : "translate-x-0"
+          }`}
+        >
+          <div className="p-6 h-full overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-white flex items-center gap-2">
+                <FaBookmark className="text-blue-400" />
+                Bookmarks
+              </h3>
+              <button
+                onClick={() => setShow(false)}
+                className="p-2 hover:bg-white/10 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+            </div>
+            
+            <div className="space-y-4">
+              {bookmarks.map((item, index) => (
+                <div
+                  key={index}
+                  className="group bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-4 hover:bg-white/10 transition-all duration-300"
+                >
+                  <div className="flex gap-3">
+                    <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0">
+                      <img
+                        src={item.image}
+                        alt="Bookmarked post"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
+                      />
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <p className="text-white font-medium mb-1 line-clamp-2">
+                        {item.caption}
+                      </p>
+                      <p className="text-gray-400 text-sm mb-2">
+                        {item.comments.length > 0
+                          ? `${item.comments.length} comments`
+                          : "No comments"}
+                      </p>
+                      {item.likes.length > 0 && (
+                        <div className="flex items-center text-red-400">
+                          <FaHeart className="w-3 h-3 mr-1" />
+                          <span className="text-sm">{item.likes.length}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      }
+
+      {/* Backdrop for bookmarks */}
+      {!show && (
+        <div
+          className="fixed inset-0 bg-black/30 backdrop-blur-sm z-30"
+          onClick={() => setShow(false)}
+        />
+      )}
     </div>
-  </div>   
-  ) :null
-}
-
-
-   </div>
   );
 };
 

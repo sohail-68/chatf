@@ -7,7 +7,7 @@ const Suggest = () => {
 
   async function fetchSuggestedUsers() {
     try {
-      const response = await axios.get('https://chatb-vrft.onrender.com/api/auth/suggested-users', {
+      const response = await axios.get('http://localhost:5001/api/auth/suggested-users', {
         headers: {
           Authorization: sessionStorage.getItem("token")
         }
@@ -24,13 +24,13 @@ const Suggest = () => {
   }, []);
 
   return (
-    <div className="mt-6 max-lg:hidden space-y-4 ">
+    <div className="mt-6  max-lg:hidden space-y-4 ">
     {window.location.pathname === "/" &&
       suggested.map((item, index) => (
         <Link to={`/userprofile/${item._id}`}
           key={item.id || index}
           whileHover={{ scale: 1.02 }}
-          className="flex items-center gap-4 bg-white/30 backdrop-blur-lg rounded-xl shadow-md border border-white/20 p-4 transition-all duration-300"
+          className="flex  px-5 items-center gap-4 bg-white/30 backdrop-blur-lg rounded-xl shadow-md border border-white/20 p-4 transition-all duration-300"
         >
           {/* Profile Image */}
           <img
