@@ -52,7 +52,7 @@ function SignUp() {
   };
 
   return (
-  <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-[#3036ab] via-[#4325a3] to-[#5b3634] py-16">
+  <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-[#3036ab] via-[#4325a3] to-[#5b3634] py-16 px-4">
       <motion.div
         className="relative bg-white bg-opacity-10 backdrop-blur-lg rounded-lg shadow-lg p-8 max-w-md w-full"
         style={{

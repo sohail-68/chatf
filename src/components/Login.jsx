@@ -12,29 +12,37 @@ function App() {
   const [password, setPassword] = useState('');
   const [show, setShow] = useState(false);
   const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post('https://chatb-vrft.onrender.com/api/Auth/login', { email, password });
-      
-      const userData = response.data.payload.user;
-console.log(userData);
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
 
-      sessionStorage
-.setItem('user', JSON.stringify(userData));
-      sessionStorage
-.setItem('userid', userData.id);
-      sessionStorage
-.setItem('token', response.data.token);
-setCurrentUserId(userData.id)
-settoken(response.data.token)
-      navigate('/');
-    } catch (error) {
-      setMessage(error.response?.data?.error || 'Something went wrong');
-    }
-  };
+  try {
+    const response = await axios.post(
+      'https://chatb-vrft.onrender.com/api/Auth/login',
+      { email, password }
+    );
+
+    const userData = response.data.payload.user;
+
+    sessionStorage.setItem('user', JSON.stringify(userData));
+    sessionStorage.setItem('userid', userData.id);
+    sessionStorage.setItem('token', response.data.token);
+
+    setCurrentUserId(userData.id);
+    settoken(response.data.token);
+
+    navigate('/');
+  } catch (error) {
+    setMessage(error.response?.data?.error || 'Something went wrong');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const containerVariants = {
     initial: { opacity: 0, scale: 0.8 },
@@ -56,7 +64,7 @@ settoken(response.data.token)
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-[#3036ab] via-[#4325a3] to-[#5b3634] py-16">
+    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-[#3036ab] via-[#4325a3] to-[#5b3634] py-16 px-4a">
       <motion.div
         className="relative bg-white bg-opacity-10 backdrop-blur-lg rounded-lg shadow-xl p-8 max-w-md w-full"
         style={{
@@ -113,6 +121,7 @@ settoken(response.data.token)
               className="w-full px-4 py-3 text-gray-900 bg-white bg-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition"
               required
             />
+          
             <span
               onClick={() => setShow(!show)}
               className="absolute top-12 right-6 text-gray-300 cursor-pointer"
@@ -122,15 +131,26 @@ settoken(response.data.token)
             </span>
           </motion.div>
 
-          <motion.button
-            type="submit"
-            className="w-full py-3 rounded-lg text-white font-semibold bg-blue-600 shadow-lg hover:shadow-blue-700 transition"
-            variants={buttonVariants}
-            whileHover="hover"
-            whileTap="tap"
-          >
-            Log In
-          </motion.button>
+   <motion.button
+  type="submit"
+  disabled={loading}
+  className={`w-full py-3 rounded-lg text-white font-semibold transition
+    ${loading ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:shadow-blue-700'}`}
+  variants={buttonVariants}
+  whileHover={!loading ? "hover" : ""}
+  whileTap={!loading ? "tap" : ""}
+>
+  {loading ? (
+    <div className="flex justify-center items-center gap-2">
+      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+      <span>Logging in...</span>
+    </div>
+  ) : (
+    'Log In'
+  )}
+</motion.button>
+
+
         </form>
 
         <div className="mt-6 text-center text-gray-900">

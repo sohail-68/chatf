@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Bell, Clock, UserPlus, Users } from "lucide-react";
+import { toast } from "react-toastify";
 
 const Request = () => {
 const [requests, setRequests] = useState([]);
@@ -35,7 +36,8 @@ const handleRespond = async (requesterId, action) => {
       { headers: { Authorization: `${token}` } }
     );
 
-    alert(res.data.message);
+    toast.success(res.data.message)
+
 
     if (action === "approve") {
       // Remove from requests
@@ -57,7 +59,8 @@ const handleFollowBack = async (userId) => {
       {},
       { headers: { Authorization: `${token}` } }
     );
-    alert(res.data.message);
+        toast.success(res.data.message)
+
 
     // Remove from approved list after follow back
     setApproved((prev) => prev.filter((r) => r._id !== userId));
@@ -65,6 +68,7 @@ const handleFollowBack = async (userId) => {
     console.error("Follow back error:", err);
   }
 };
+console.log(approved);
 
   useEffect(() => {
     fetchFollowRequests();

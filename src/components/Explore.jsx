@@ -22,7 +22,8 @@ console.log(messages,"mess");
 
     const timeout = setTimeout(() => {
       axios
-        .get(`https://chatb-vrft.onrender.com/api/auth/search?q=${encodeURIComponent(query)}`, {
+        .get(`https://chatb-vrft.onrender.com
+/api/auth/search?q=${encodeURIComponent(query)}`, {
           headers: {
             Authorization: sessionStorage
 .getItem("token"),

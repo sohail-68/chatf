@@ -10,7 +10,8 @@ const Chat = ({ currentUserId, recipientId }) => {
 
     // Establish socket connection and join a room based on userId
     useEffect(() => {
-        const newSocket = io('http://localhost:5001');
+        const newSocket = io('https://chatb-vrft.onrender.com
+');
         setSocket(newSocket);
 
         // Join a room for the current user

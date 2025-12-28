@@ -103,7 +103,8 @@ const Post = ({ post, handleDeleteSuccess }) => {
       if (!token) throw new Error("User not authenticated");
   
       await axios.post(
-        `http://localhost:5001/api/auth/bookmark/${data}`,
+        `https://chatb-vrft.onrender.com
+/api/auth/bookmark/${data}`,
         {},
         { headers: { Authorization: `${token}` } }
       );
