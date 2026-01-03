@@ -512,7 +512,7 @@ const Chat = () => {
   }, [recipientId]);
 
   return (
-    <div className="flex flex-col justify-between h-screen bg-white">
+    <div className="flex flex-col justify-between  h-[100dvh] bg-white">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
         <button
