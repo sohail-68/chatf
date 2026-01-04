@@ -38,6 +38,7 @@ const handleRespond = async (requesterId, action) => {
 
     toast.success(res.data.message)
 
+console.log(res.data);
 
     if (action === "approve") {
       // Remove from requests
