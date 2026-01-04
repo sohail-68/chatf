@@ -64,11 +64,7 @@ function App() {
   };
 
   return (
-<<<<<<< HEAD
-    <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-[#3036ab] via-[#4325a3] to-[#5b3634] py-16 px-4">
-=======
     <div className="min-h-screen flex justify-center items-center bg-gradient-to-br from-[#3036ab] via-[#4325a3] to-[#5b3634] py-16 px-3">
->>>>>>> 031079dd617454e8582743088dbd46df6de944b3
       <motion.div
         className="relative bg-white bg-opacity-10 backdrop-blur-lg rounded-lg shadow-xl p-8 max-w-md w-full"
         style={{
@@ -186,3 +182,4 @@ function App() {
 }
 
 export default App;
+
