@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://chatb-vrft.onrender.com
+const API = axios.create({ baseURL: 'https://chatbackendnew-1.onrender.com
 ' });
 
 export const registerUser = (data) => API.post('/register', data);

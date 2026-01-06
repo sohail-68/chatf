@@ -15,7 +15,7 @@ const ChangePassword = () => {
   const SubPass = async () => {
     try {
       const response = await axios.put(
-        "https://chatb-vrft.onrender.com/api/auth/changepass",
+        "https://chatbackendnew-1.onrender.com/api/auth/changepass",
         {
           currentPassword: password.oldpass,
           newPassword: password.newpass,

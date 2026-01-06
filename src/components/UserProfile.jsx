@@ -48,7 +48,7 @@ const UserProfile = () => {
   const handleFollowClick = async () => {
     try {
       const res = await axios.post(
-        `https://chatb-vrft.onrender.com/api/auth/follow/${params.id}`,
+        `https://chatbackendnew-1.onrender.com/api/auth/follow/${params.id}`,
         {},
         {
           headers: {
@@ -70,7 +70,7 @@ console.log(token);
 const Follow = async () => {
   try {
     const res = await axios.post(
-      `https://chatb-vrft.onrender.com/api/auth/follow-request/${params.id}`,
+      `https://chatbackendnew-1.onrender.com/api/auth/follow-request/${params.id}`,
       {},
       {
         headers: {
@@ -95,7 +95,7 @@ console.log(data);
   const fetchUserProfile = async () => {
     try {
       const profileResponse = await axios.get(
-        `https://chatb-vrft.onrender.com/api/auth/userpro/${params.id}`,
+        `https://chatbackendnew-1.onrender.com/api/auth/userpro/${params.id}`,
         {
           headers: {
             Authorization: `${token}`,
@@ -113,7 +113,7 @@ console.log(data);
   const fetchPostCount = async () => {
     try {
       const postResponse = await axios.get(
-        `https://chatb-vrft.onrender.com/api/count/${params.id}`,
+        `https://chatbackendnew-1.onrender.com/api/count/${params.id}`,
         {
           headers: {
             Authorization: token,
@@ -134,7 +134,7 @@ console.log("pos",post);
   useEffect(() => {
     fetchUserProfile();
     fetchPostCount();
-         const newSocket = io('https://chatb-vrft.onrender.com');
+         const newSocket = io('https://chatbackendnew-1.onrender.com');
     setSocket(newSocket);
 
     newSocket.emit('joinRoom', currentUserId);

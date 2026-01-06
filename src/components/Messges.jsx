@@ -71,7 +71,7 @@
 //     const fetchMessages = async () => {
 //       try {
 //         const res = await axios.get(
-//           `https://chatb-vrft.onrender.com/api/messages/${recipientId}`,
+//           `https://chatbackendnew-1.onrender.com/api/messages/${recipientId}`,
 //           {
 //             headers: {
 //               Authorization: sessionStorage.getItem("token"),
@@ -129,7 +129,7 @@
 //   const fetchUserProfile = async () => {
 //     try {
 //       const res = await axios.get(
-//         `https://chatb-vrft.onrender.com/api/auth/userpro/${recipientId}`,
+//         `https://chatbackendnew-1.onrender.com/api/auth/userpro/${recipientId}`,
 //         { headers: { Authorization: sessionStorage.getItem("token") } }
 //       );
 //       setData(res.data);
@@ -250,14 +250,14 @@
 //   useEffect(() => {
 //     if (!currentUserId) return;
 
-//     const socket = io("https://chatb-vrft.onrender.com");
+//     const socket = io("https://chatbackendnew-1.onrender.com");
 //     socketRef.current = socket; // save in ref
 
 //     socket.emit("join", currentUserId);
 
 //     // Fetch old messages
 //     axios
-//       .get(`https://chatb-vrft.onrender.com/api/messages/${receiverId}`, {
+//       .get(`https://chatbackendnew-1.onrender.com/api/messages/${receiverId}`, {
 //         headers: { Authorization: sessionStorage.getItem("token") },
 //       })
 //       .then((res) => setMessages(res.data))
@@ -265,7 +265,7 @@
 
 //     // Fetch user profile
 //     axios
-//       .get(`https://chatb-vrft.onrender.com/api/auth/userpro/${receiverId}`, {
+//       .get(`https://chatbackendnew-1.onrender.com/api/auth/userpro/${receiverId}`, {
 //         headers: { Authorization: sessionStorage.getItem("token") },
 //       })
 //       .then((res) => setUserData(res.data))
@@ -441,7 +441,7 @@ const Chat = () => {
     const fetchMessages = async () => {
       try {
         const res = await axios.get(
-          `https://chatb-vrft.onrender.com/api/messages/${recipientId}`,
+          `https://chatbackendnew-1.onrender.com/api/messages/${recipientId}`,
           {
             headers: {
               Authorization: sessionStorage.getItem("token"),
@@ -498,7 +498,7 @@ const Chat = () => {
   const fetchUserProfile = async () => {
     try {
       const res = await axios.get(
-        `https://chatb-vrft.onrender.com/api/auth/userpro/${recipientId}`,
+        `https://chatbackendnew-1.onrender.com/api/auth/userpro/${recipientId}`,
         { headers: { Authorization: sessionStorage.getItem("token") } }
       );
       setData(res.data);

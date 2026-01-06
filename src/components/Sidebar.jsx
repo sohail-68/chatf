@@ -69,7 +69,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       // Optional API call to backend if needed
-      await axios.post("https://chatb-vrft.onrender.com/api/auth/logout", {}, {
+      await axios.post("https://chatbackendnew-1.onrender.com/api/auth/logout", {}, {
         headers: {
           Authorization: `${sessionStorage.getItem("token")}`,
         },

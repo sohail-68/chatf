@@ -1,21 +1,23 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaPaperPlane } from 'react-icons/fa';
-import { useChatMessages } from '../context/AuthContext'; // Make sure this path is correct
+import { useChatMessages ,} from '../context/AuthContext'; // Make sure this path is correct
 
 const Messgesss = () => {
   // Destructure values from the ChatMessages context
-  const {  suggestedUsers ,notification, } = useChatMessages();
+  const {  suggestedUsers , fetchSuggestedUsers,notification, } = useChatMessages();
   const navigate = useNavigate();
 
   const Chat = (userId) => {
     navigate(`/message/${userId}`);
   };
   console.log(notification);
-  
+  console.log(fetchSuggestedUsers);
 
+useEffect(()=>{
+fetchSuggestedUsers()
 
-
+},[])
 
 
 

@@ -12,7 +12,7 @@ const [approved, setApproved] = useState([]);
   const fetchFollowRequests = async () => {
     try {
       const res = await axios.get(
-        "https://chatb-vrft.onrender.com/api/auth/users/follow-requests",
+        "https://chatbackendnew-1.onrender.com/api/auth/users/follow-requests",
         {
           headers: { Authorization: `${token}` },
         }
@@ -31,7 +31,7 @@ const [approved, setApproved] = useState([]);
 const handleRespond = async (requesterId, action) => {
   try {
     const res = await axios.post(
-      "https://chatb-vrft.onrender.com/api/auth/users/follow-request/respond",
+      "https://chatbackendnew-1.onrender.com/api/auth/users/follow-request/respond",
       { requesterId, action },
       { headers: { Authorization: `${token}` } }
     );
@@ -56,7 +56,7 @@ console.log(res.data);
 const handleFollowBack = async (userId) => {
   try {
     const res = await axios.post(
-      `https://chatb-vrft.onrender.com/api/auth/follow-back/${userId}`,
+      `https://chatbackendnew-1.onrender.com/api/auth/follow-back/${userId}`,
       {},
       { headers: { Authorization: `${token}` } }
     );

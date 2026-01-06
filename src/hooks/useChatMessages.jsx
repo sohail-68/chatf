@@ -12,7 +12,7 @@ const useChatMessages = (currentUserId, recipientId, showNotification) => {
     const [unreadMessages, setUnreadMessages] = useState(0); // Tra
 
     // useEffect(() => {
-    //     const newSocket = io('https://chatb-vrft.onrender.com');
+    //     const newSocket = io('https://chatbackendnew-1.onrender.com');
     //     setSocket(newSocket);
 
     //     newSocket.emit('joinRoom', currentUserId);

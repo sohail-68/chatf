@@ -5,7 +5,7 @@ let socket;
 
 export const getSocket = () => {
   if (!socket) {
-    socket = io("https://chatb-vrft.onrender.com", { autoConnect: false });
+    socket = io("https://chatbackendnew-1.onrender.com", { autoConnect: false });
   }
   return socket;
 };

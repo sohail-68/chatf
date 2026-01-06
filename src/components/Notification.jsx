@@ -10,7 +10,7 @@ const Notifications = () => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get("https://chatb-vrft.onrender.com/api/notification", {
+        const response = await axios.get("https://chatbackendnew-1.onrender.com/api/notification", {
           headers: { Authorization: `${sessionStorage.getItem('token')}` }
         });
         setNotifications(response.data);

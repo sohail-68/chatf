@@ -15,7 +15,7 @@ function SignUp() {
     e.preventDefault();
 
     try {
-      const response = await axios.post('https://chatb-vrft.onrender.com/api/auth/register', { username, email, password });
+      const response = await axios.post('https://chatbackendnew-1.onrender.com/api/auth/register', { username, email, password });
 
       // Assuming user data is returned after successful sign-up
       const userData = response.data.payload.user;

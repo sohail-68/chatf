@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { io } from 'socket.io-client';
 
-const API = axios.create({ baseURL: 'https://chatb-vrft.onrender.com/api' });
+const API = axios.create({ baseURL: 'https://chatbackendnew-1.onrender.com/api' });
 
 // Attach the token for authorization
 API.interceptors.request.use((req) => {
@@ -50,7 +50,7 @@ export const onMessageReceived = (callback) => {
 export const fetchBookmarks = async () => {
   try {
     const response = await axios.get(
-      "https://chatb-vrft.onrender.com/api/auth/bookmarked",
+      "https://chatbackendnew-1.onrender.com/api/auth/bookmarked",
       {
         headers: { Authorization: localStorage
 .getItem("token") },
