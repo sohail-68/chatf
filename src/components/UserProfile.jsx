@@ -157,135 +157,187 @@ function seTNew(id){
 }
   return (
 <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <div className="max-w-6xl mx-auto px-4 py-8">
-        {/* Profile Header */}
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden mb-8">
-          <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 h-32"></div>
-          
-          <div className="relative px-8 pb-8">
-            {/* Profile Picture */}
-            <div className="absolute -top-16 left-8">
-              <div className="w-32 h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white">
+  <div className="container mx-auto px-4 py-6 sm:px-6 lg:px-8">
+    
+    {/* Profile Header */}
+    <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden mb-6 sm:mb-8">
+      {/* Cover Image */}
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 h-24 sm:h-28 md:h-32"></div>
+      
+      <div className="px-4 sm:px-6 md:px-8 pb-6 sm:pb-8">
+        {/* Profile Picture - Responsive positioning */}
+        <div className="flex flex-col sm:flex-row sm:items-end relative">
+          <div className="relative -mt-12 sm:-mt-16 md:-mt-20 mb-4 sm:mb-0">
+            <div className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full border-4 border-white shadow-xl overflow-hidden bg-white mx-auto sm:mx-0">
+           {data.profilePicture ? (
                 <img
                   src={data.profilePicture}
                   alt="Profile"
                   className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.parentElement.innerHTML = `
+                      <div class="w-full h-full flex items-center justify-center text-white text-3xl sm:text-4xl font-bold bg-gradient-to-br from-blue-500 to-purple-600">
+                        ${data.username?.charAt(0).toUpperCase() || '?'}
+                      </div>
+                    `;
+                  }}
                 />
-              </div>
-            </div>
-
-            {/* Profile Info */}
-            <div className="pt-20 flex flex-col lg:flex-row md:items-center md:justify-between">
-              <div className="mb-6 md:mb-0">
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">{data.username}</h1>
-                <p className="text-gray-600 text-lg mb-4 max-w-md">{data.bio}</p>
-                
-                {/* Stats */}
-                <div className="flex space-x-8">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{postCount}</div>
-                    <div className="text-sm text-gray-500 uppercase tracking-wide">Posts</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{data.followers.length}</div>
-                    <div className="text-sm text-gray-500 uppercase tracking-wide">Followers</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-gray-900">{data.following.length}</div>
-                    <div className="text-sm text-gray-500 uppercase tracking-wide">Following</div>
-                  </div>
+              ) : (
+                <div className="w-full h-full flex items-center justify-center text-white text-3xl sm:text-4xl font-bold bg-gradient-to-br from-blue-500 to-purple-600">
+                  {data.username?.charAt(0).toUpperCase() || '?'}
                 </div>
+              )}
+            </div>
+          </div>
+
+          {/* Profile Info - Mobile responsive */}
+          <div className="flex-1 text-center sm:text-left sm:ml-6 md:ml-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">
+                  {data.username}
+                </h1>
+                {data.bio && (
+                  <p className="text-gray-600 text-sm sm:text-base mb-3 sm:mb-4 max-w-md mx-auto sm:mx-0">
+                    {data.bio}
+                  </p>
+                )}
               </div>
 
-              {/* Action Buttons */}
-            <div className="flex gap-3 mt-2"> {/* Follow / Unfollow */} <button onClick={handleFollowClick} className={`px-5 py-2 rounded-lg font-semibold shadow-sm transition ${ data.followers.includes(sessionStorage.getItem("userid")) ? "bg-gray-400 text-white hover:bg-gray-500" : "bg-blue-500 text-white hover:bg-blue-600" }`} > {data.followers.includes(sessionStorage.getItem("userid")) ? "Unfollow" : "Follow"} </button> {/* Request (only if not following) */} {!data.followers.includes(sessionStorage.getItem("userid")) && ( <button onClick={Follow} className="px-5 py-2 rounded-lg font-semibold bg-yellow-500 text-white hover:bg-yellow-600 shadow-sm transition" > Request </button> )} {/* Message (only if following) */} {data.followers.includes(sessionStorage.getItem("userid")) && ( <button onClick={() => seTNew( location.state ? location.state.post.user._id : params.id ) } className="px-5 py-2 rounded-lg font-semibold bg-green-500 text-white hover:bg-green-600 shadow-sm transition" > Message {messages.length > 0 && `(${messages.length})`} </button> )} </div>
-            </div>
-          </div>
-        </div>
+              {/* Action Buttons - Responsive */}
+              <div className="flex gap-2 mt-2 sm:gap-3 justify-center sm:justify-start">
+                {/* Follow / Unfollow Button */}
+                <button
+                  onClick={handleFollowClick}
+                  className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg font-semibold shadow-sm transition text-sm sm:text-base ${
+                    data.followers?.includes(sessionStorage.getItem("userid"))
+                      ? "bg-gray-400 text-white hover:bg-gray-500"
+                      : "bg-blue-500 text-white hover:bg-blue-600"
+                  }`}
+                >
+                  {data.followers?.includes(sessionStorage.getItem("userid"))
+                    ? "Unfollow"
+                    : "Follow"}
+                </button>
 
-        {/* Posts Section */}
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
-          <div className="px-8 py-6 border-b border-gray-100">
-            <div className="flex items-center space-x-2">
-              <Grid3X3 size={24} className="text-gray-600" />
-              <h2 className="text-2xl font-bold text-gray-900">Posts</h2>
-            </div>
-          </div>
-
-          <div className="p-8">
-            {post.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {post.map((item, index) => (
-                  <div
-                    key={index}
-                    className="group relative bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+                {/* Request Button */}
+                {!data.followers?.includes(sessionStorage.getItem("userid")) && (
+                  <button
+                    onClick={Follow}
+                    className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg font-semibold bg-yellow-500 text-white hover:bg-yellow-600 shadow-sm transition text-sm sm:text-base"
                   >
-                    <div className="aspect-square overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt="Post"
-                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                      />
-                    </div>
-                    
-                    <div className="">
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white text-center">
-                        <div className="flex items-center justify-center space-x-4">
-                          <div className="flex items-center space-x-1">
-                            <Heart size={20} fill="currentColor" />
-                            <span className="font-semibold">{item.likes.length}</span>
-                          </div>
-                          <div className="flex items-center space-x-1">
-                            <MessageCircle size={20} />
-                            <span className="font-semibold">0</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                    Request
+                  </button>
+                )}
 
-                    <div className="p-4">
-                      <p className="text-gray-700 text-sm leading-relaxed">{item.caption}</p>
-                      <div className="flex items-center justify-between mt-3">
-                        <div className="flex items-center space-x-1">
-                          <Heart 
-                            size={18} 
-                            className={`transition-colors cursor-pointer ${
-                              item.likes.length > 0 ? 'text-red-500 fill-current' : 'text-gray-400 hover:text-red-400'
-                            }`}
-                          />
-                          <span className="text-sm text-gray-500">{item.likes.length}</span>
-                        </div>
-                        <MessageCircle 
-                          size={18} 
-                          className="text-gray-400 hover:text-blue-500 cursor-pointer transition-colors"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {/* Message Button */}
+                {data.followers?.includes(sessionStorage.getItem("userid")) && (
+                  <button
+                    onClick={() => seTNew(location.state?.post?.user?._id || params.id)}
+                    className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-lg font-semibold bg-green-500 text-white hover:bg-green-600 shadow-sm transition text-sm sm:text-base"
+                  >
+                    Message
+                    {messages.length > 0 && (
+                      <span className="ml-1 sm:ml-2 bg-red-500 text-white text-xs rounded-full px-1.5 py-0.5">
+                        {messages.length}
+                      </span>
+                    )}
+                  </button>
+                )}
               </div>
-            ) : (
-              <div className="text-center py-16">
-                <div className="w-24 h-24 mx-auto mb-6 bg-gray-100 rounded-full flex items-center justify-center">
-                  <Grid3X3 size={32} className="text-gray-400" />
-                </div>
-                <h3 className="text-xl font-semibold text-gray-700 mb-2">No posts yet</h3>
-                <p className="text-gray-500">When this user shares photos, they'll appear here.</p>
+            </div>
+
+            {/* Stats - Responsive grid */}
+            <div className="flex justify-center sm:justify-start space-x-6 sm:space-x-8 mt-4 sm:mt-6">
+              <div className="text-center">
+                <div className="text-xl sm:text-2xl font-bold text-gray-900">{postCount || 0}</div>
+                <div className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide">Posts</div>
               </div>
-            )}
+              <div className="text-center">
+                <div className="text-xl sm:text-2xl font-bold text-gray-900">{data.followers?.length || 0}</div>
+                <div className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide">Followers</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xl sm:text-2xl font-bold text-gray-900">{data.following?.length || 0}</div>
+                <div className="text-xs sm:text-sm text-gray-500 uppercase tracking-wide">Following</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-       <ToastContainer
-              position="top-right"
-              autoClose={2000}
-              hideProgressBar={false}
-              closeOnClick
-              pauseOnHover
-              draggable
-              theme="colored"
-            />
     </div>
+
+    {/* Posts Section */}
+    <div className="bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden">
+      <div className="px-4 sm:px-6 md:px-8 py-4 sm:py-6 border-b border-gray-100">
+        <div className="flex items-center space-x-2">
+          <Grid3X3 size={20} className="text-gray-600 sm:w-6 sm:h-6" />
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Posts</h2>
+        </div>
+      </div>
+
+      <div className="p-4 sm:p-6 md:p-8">
+        {post?.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            {post.map((item, index) => (
+              <div
+                key={index}
+                className="group relative bg-white rounded-xl sm:rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2"
+              >
+                {/* Post Image */}
+                <div className="aspect-square overflow-hidden relative">
+                  <img
+                    src={item.image}
+                    alt="Post"
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    onError={(e) => {
+                      e.target.src = "/placeholder-image.png";
+                    }}
+                  />
+                  
+                  {/* Hover Overlay */}
+             
+                </div>
+
+                {/* Post Info */}
+                <div className="p-3 sm:p-4">
+                  {item.caption && (
+                    <p className="text-gray-700 text-xs sm:text-sm leading-relaxed line-clamp-2">
+                      {item.caption}
+                    </p>
+                  )}
+                  
+                
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 sm:py-16">
+            <div className="w-16 h-16 sm:w-24 sm:h-24 mx-auto mb-4 sm:mb-6 bg-gray-100 rounded-full flex items-center justify-center">
+              <Grid3X3 size={28} className="text-gray-400 sm:w-8 sm:h-8" />
+            </div>
+            <h3 className="text-lg sm:text-xl font-semibold text-gray-700 mb-2">No posts yet</h3>
+            <p className="text-gray-500 text-sm sm:text-base">
+              When this user shares photos, they'll appear here.
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
+
+    <ToastContainer
+      position="top-right"
+      autoClose={2000}
+      hideProgressBar={false}
+      closeOnClick
+      pauseOnHover
+      draggable
+      theme="colored"
+    />
+  </div>
+</div>
 
   );
 };
