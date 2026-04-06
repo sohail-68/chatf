@@ -71,7 +71,7 @@
 //     const fetchMessages = async () => {
 //       try {
 //         const res = await axios.get(
-//           `https://chatbackendnew-1.onrender.com/api/messages/${recipientId}`,
+//           `http://localhost:5001/api/messages/${recipientId}`,
 //           {
 //             headers: {
 //               Authorization: sessionStorage.getItem("token"),
@@ -129,7 +129,7 @@
 //   const fetchUserProfile = async () => {
 //     try {
 //       const res = await axios.get(
-//         `https://chatbackendnew-1.onrender.com/api/auth/userpro/${recipientId}`,
+//         `http://localhost:5001/api/auth/userpro/${recipientId}`,
 //         { headers: { Authorization: sessionStorage.getItem("token") } }
 //       );
 //       setData(res.data);
@@ -250,14 +250,14 @@
 //   useEffect(() => {
 //     if (!currentUserId) return;
 
-//     const socket = io("https://chatbackendnew-1.onrender.com");
+//     const socket = io("http://localhost:5001");
 //     socketRef.current = socket; // save in ref
 
 //     socket.emit("join", currentUserId);
 
 //     // Fetch old messages
 //     axios
-//       .get(`https://chatbackendnew-1.onrender.com/api/messages/${receiverId}`, {
+//       .get(`http://localhost:5001/api/messages/${receiverId}`, {
 //         headers: { Authorization: sessionStorage.getItem("token") },
 //       })
 //       .then((res) => setMessages(res.data))
@@ -265,7 +265,7 @@
 
 //     // Fetch user profile
 //     axios
-//       .get(`https://chatbackendnew-1.onrender.com/api/auth/userpro/${receiverId}`, {
+//       .get(`http://localhost:5001/api/auth/userpro/${receiverId}`, {
 //         headers: { Authorization: sessionStorage.getItem("token") },
 //       })
 //       .then((res) => setUserData(res.data))
@@ -379,7 +379,7 @@
 //   );
 // }
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams, useNavigate, useLocation, Link } from "react-router-dom";
 import axios from "axios";
 import { ArrowLeft, MoreVertical, SendHorizonal } from "lucide-react";
@@ -397,6 +397,7 @@ const Chat = () => {
   const [focus, setFocus] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const navigate = useNavigate();
+const bottomRef = useRef(null);
 
   // 🔌 Socket setup
   useEffect(() => {
@@ -441,7 +442,7 @@ const Chat = () => {
     const fetchMessages = async () => {
       try {
         const res = await axios.get(
-          `https://chatbackendnew-1.onrender.com/api/messages/${recipientId}`,
+          `http://localhost:5001/api/messages/${recipientId}`,
           {
             headers: {
               Authorization: sessionStorage.getItem("token"),
@@ -498,7 +499,7 @@ const Chat = () => {
   const fetchUserProfile = async () => {
     try {
       const res = await axios.get(
-        `https://chatbackendnew-1.onrender.com/api/auth/userpro/${recipientId}`,
+        `http://localhost:5001/api/auth/userpro/${recipientId}`,
         { headers: { Authorization: sessionStorage.getItem("token") } }
       );
       setData(res.data);
@@ -510,6 +511,11 @@ const Chat = () => {
   useEffect(() => {
     fetchUserProfile();
   }, [recipientId]);
+
+// Jab bhi messages update ho
+useEffect(() => {
+  bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+}, [messages]);
 
   return (
     <div className="flex flex-col justify-between  h-[100dvh] bg-white">
@@ -549,7 +555,7 @@ const Chat = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 bg-gray-50">
+      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 bg-gray-50 scroll-smooth">
         {(location.state || messages).map((msg, idx) => (
           <div
             key={idx}
@@ -576,10 +582,13 @@ const Chat = () => {
             </div>
           </div>
         ))}
+          <div ref={bottomRef} />
       </div>
 
       {/* Input Section */}
-      <div className="border-t border-gray-200 bg-white px-3 py-2 flex items-center gap-2">
+    <div className="border-t border-gray-200 bg-white px-3 py-2 flex items-center gap-2"
+  style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
+>
         <input
           type="text"
           value={message}
