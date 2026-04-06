@@ -39,7 +39,7 @@ console.log(messages,"mess");
   }, [query]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-100 p-6">
+    <div className="min-h-full bg-gradient-to-br from-blue-50 to-purple-100 p-6">
       <div className="max-w-xl mx-auto">
         <div className="mb-6">
           <input
