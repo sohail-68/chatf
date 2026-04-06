@@ -21,7 +21,8 @@ const MainLayout = ({ children }) => {
           <Suggest/>
         </div>
         {/* <Suggest /> */}
-       <MobileTabs />
+        {!location.pathname.includes("/message") && <MobileTabs />}
+
         
       </div>
     </div>
