@@ -24,7 +24,7 @@ const Suggest = () => {
   }, []);
 
   return (
-    <div className="mt-6  max-lg:hidden space-y-4 ">
+      <div className="mt-6  max-lg:hidden space-y-4 ">
     {window.location.pathname === "/" &&
       suggested.map((item, index) => (
         <Link to={`/userprofile/${item._id}`}
@@ -33,11 +33,15 @@ const Suggest = () => {
           className="flex  px-5 items-center gap-4 bg-white/30 backdrop-blur-lg rounded-xl shadow-md border border-white/20 p-4 transition-all duration-300"
         >
           {/* Profile Image */}
-          <img
-            src={item.profilePicture}
-            alt={`${item.username}'s profile`}
-            className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover ring-2 ring-white shadow"
-          />
+          {
+            item.profilePicture ? (
+              <img src={item.profilePicture} alt={item.username} className="w-12 h-12 rounded-full object-cover" />
+            ) : (
+              <div className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg bg-gradient-to-r from-purple-500 to-pink-500">
+                {item.username?.charAt(0).toUpperCase()}
+              </div>
+              )
+          }
   
           {/* Info */}
           <div className="flex flex-col justify-center">
