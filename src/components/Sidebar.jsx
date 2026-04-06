@@ -47,7 +47,14 @@ const Sidebar = () => {
 
 
   const currentUserId = sessionStorage.getItem("userid");
-
+useEffect(() => {
+  const currentIndex = data.findIndex(
+    (item) => item.link === location.pathname
+  );
+  if (currentIndex !== -1) {
+    setActiveIndex(currentIndex);
+  }
+}, [location.pathname]);
 
 
 
