@@ -7,23 +7,21 @@ import MobileTabs from "../components/MobileTabs";
 import { useLocation } from "react-router-dom";
 
 const MainLayout = ({ children }) => {
-  const location=useLocation()
-  console.log(location);
+  const location = useLocation();
 
-  
   return (
-    <div className="flex flex-col h-screen">
+<div className="flex flex-col  min-h-screen">
       <Header />
-      <div className="flex ">
+      <div className="flex flex-1 ">
         <Sidebar />
-        <div className="md:ml-64 flex-1 ">
+        <div className="md:ml-64 flex-1  ">
           {children}
         </div>
         <div className="">
           <Suggest/>
         </div>
         {/* <Suggest /> */}
-        {!location.pathname.includes("/message") && <MobileTabs />}
+       <MobileTabs />
         
       </div>
     </div>
@@ -31,3 +29,4 @@ const MainLayout = ({ children }) => {
 };
 
 export default MainLayout;
+
