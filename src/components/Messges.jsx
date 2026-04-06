@@ -442,7 +442,7 @@ const bottomRef = useRef(null);
     const fetchMessages = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:5001/api/messages/${recipientId}`,
+ `https://chatbackendnew-1.onrender.com/api/messages/${recipientId}`,
           {
             headers: {
               Authorization: sessionStorage.getItem("token"),
@@ -499,7 +499,7 @@ const bottomRef = useRef(null);
   const fetchUserProfile = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:5001/api/auth/userpro/${recipientId}`,
+`https://chatbackendnew-1.onrender.com/api/auth/userpro/${recipientId}`,
         { headers: { Authorization: sessionStorage.getItem("token") } }
       );
       setData(res.data);
