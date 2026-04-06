@@ -52,62 +52,89 @@ console.log(img);
 console.log(notifications);
 
   return (
-    <div className="notifications bg-white p-4 h-screen justify-center rounded-lg shadow-md max-w-md ">
-      <h3 className="text-lg font-bold mb-4">Notifications</h3>
-      {filteredNotifications.length === 0 ? (
-        <p>No notifications</p>
-      ) : (
-        <ul>
+  <div className="bg-white min-h-screen flex justify-center">
+  <div className="w-full max-w-md p-4">
+    
+    {/* Header */}
+    <h3 className="text-xl font-bold mb-6 text-gray-800">
+      Notifications
+    </h3>
+
+    {/* Empty State */}
+    {filteredNotifications.length === 0 ? (
+      <div className="text-center text-gray-500 mt-10">
+        No notifications yet
+      </div>
+    ) : (
+      <ul className="space-y-4">
         {filteredNotifications.map((notification) => (
-  <li key={notification._id} className="notification-item mb-4">
-    <div className="flex space-x-4 items-start">
-      {/* Left Column: Users who liked/commented (stacked vertically) */}
-      <div className="flex flex-col space-y-2">
-        {notification.likes.map((user, index) => (
-          <div key={index} className="flex items-center space-x-2">
-            <img
-              src={user.user.profilePicture}
-              alt={user.user.username || "User"}
-              className="w-10 h-10 rounded-full object-cover"
-            />
-            <span className="text-sm">{user.user.username || "Unknown User"}</span>
-          </div>
+          <li
+            key={notification._id}
+            className="flex items-center justify-between p-3 rounded-xl hover:bg-gray-100 transition"
+          >
+            {/* LEFT SECTION */}
+            <div className="flex items-center gap-3 flex-1">
+              
+              {/* 👥 Multiple Users Avatar Stack */}
+              <div className="flex -space-x-2">
+                {notification.likes.slice(0, 3).map((user, index) => (
+                  user.user.profilePicture ? (
+                    <img
+                      key={index}
+                      src={user.user.profilePicture}
+                      alt={user.user.username}
+                      className="w-10 h-10 rounded-full object-cover border-2 border-white"
+                    />
+                  ) : (
+                    <div
+                      key={index}
+                      className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold bg-gradient-to-r from-purple-500 to-pink-500 border-2 border-white"
+                    >
+                      {user.user.username?.charAt(0).toUpperCase()}
+                    </div>
+                  )
+                ))}
+              </div>
+
+              {/* TEXT */}
+              <div className="text-sm">
+                <span className="font-semibold text-gray-800">
+                  {notification.likes[0]?.user.username || "Someone"}
+                </span>
+
+                <span className="text-gray-600 ml-1">
+                  {notification.likes?.length > 1
+                    ? `and ${notification.likes.length - 1} others `
+                    : " "}
+
+                  {notification.likes?.length > 0 && notification.comments?.length > 0
+                    ? "liked and commented on your post"
+                    : notification.likes?.length > 0
+                    ? "liked your post"
+                    : notification.comments?.length > 0
+                    ? "commented on your post"
+                    : "updated something"}
+                </span>
+
+                {/* TIME */}
+               
+              </div>
+            </div>
+
+            {/* RIGHT IMAGE */}
+            {notification.image && (
+              <img
+                src={notification.image}
+                alt="post"
+                className="w-14 h-14 object-cover rounded-lg ml-3"
+              />
+            )}
+          </li>
         ))}
-      </div>
-
-      {/* Middle Column: Notification Text */}
-      <div className="flex-1">
-        <div className="text-sm text-gray-800">
-          <span className="ml-1 text-gray-600">
-            {notification.likes?.length > 0 && notification.comments?.length > 0
-              ? "liked and commented on your post"
-              : notification.likes?.length > 0
-              ? "liked your post"
-              : notification.comments?.length > 0
-              ? "commented on your post"
-              : "posted an update"}
-          </span>
-        </div>
-        <p className="text-xs text-gray-500 mt-1">2h ago</p>
-      </div>
-
-      {/* Right Column: Notification Image */}
-      {notification.image && (
-        <div>
-          <img
-            src={notification.image}
-            alt="Notification related"
-            className="w-16 h-16 object-cover rounded-md"
-          />
-        </div>
-      )}
-    </div>
-  </li>
-))}
-
-        </ul>
-      )}
-    </div>
+      </ul>
+    )}
+  </div>
+</div>
   );
 };
 
