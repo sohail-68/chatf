@@ -33,11 +33,12 @@ const MainLayout = ({ children }) => {
         </div>
         
         {/* Mobile Tabs - Make sure yeh fixed ho */}
-        {!location.pathname.includes("/messages") && (
-          <div className="fixed bottom-0 w-full z-50 md:hidden">
-             <MobileTabs />
-          </div>
-        )}
+     {/* Yahan '/message' (singular) aur aage slash '/' ka hona zaroori hai */}
+{!location.pathname.includes("/message/") && (
+  <div className="fixed bottom-0 w-full z-50 md:hidden">
+    <MobileTabs />
+  </div>
+)}
         
       </div>
     </div>
