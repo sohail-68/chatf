@@ -222,11 +222,11 @@ function Chnage(){
   return (
    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Main Profile Card */}
-      <div className="max-w-6xl mx-auto p-6">
+      <div className="max-w-5xl mx-auto p-6">
         <div className="bg-white/80 backdrop-blur-sm shadow-2xl rounded-3xl p-8 border border-white/20">
 
           {/* Profile Header Section */}
-          <div className="flex lg:flex-row  items-center gap-8">
+          <div className="flex lg:flex-row  items-center gap-3">
             
             {/* Profile Picture Section */}
             <div className="relative group">
@@ -313,10 +313,7 @@ function Chnage(){
       <h1 className="text-4xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
         {formData.username}
       </h1>
-      <p className="text-lg text-gray-600 flex items-center justify-center gap-2">
-        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-        {formData.email}
-      </p>
+     
       <p className="text-gray-700 leading-relaxed max-w-md mx-auto">
         {formData.bio || "No bio available"}
       </p>
