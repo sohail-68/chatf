@@ -518,12 +518,13 @@ useEffect(() => {
 }, [messages]);
 
   return (
-    <div className="flex flex-col justify-between  h-[100dvh] bg-white">
-      {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-gray-200">
+    <div className="flex flex-col h-[100dvh] bg-gray-50 overscroll-none"> 
+      
+      {/* Header (Fixed at top) */}
+      <div className="flex items-center gap-3 px-4 py-3 bg-white border-b border-gray-200 shadow-sm z-10">
         <button
           onClick={() => navigate(-1)}
-          className="p-2 hover:bg-gray-100 rounded-full transition"
+          className="p-2 hover:bg-gray-100 rounded-full transition active:scale-95"
         >
           <ArrowLeft className="h-5 w-5 text-gray-800" />
         </button>
@@ -535,27 +536,28 @@ useEffect(() => {
           <img
             src={data.profilePicture}
             alt="Profile"
-            className="w-9 h-9 rounded-full object-cover"
+            className="w-9 h-9 rounded-full object-cover border border-gray-200"
           />
           <div className="truncate">
-            <h2 className="text-sm font-semibold text-gray-900 truncate">
+            <h2 className="text-[15px] font-semibold text-gray-900 truncate">
               {data.username}
             </h2>
             {isTyping && (
-              <span className="text-xs text-gray-500 italic animate-pulse">
+              <span className="text-[11px] text-green-600 font-medium animate-pulse">
                 Typing...
               </span>
             )}
           </div>
         </Link>
 
-        <button className="p-2 hover:bg-gray-100 rounded-full transition">
+        <button className="p-2 hover:bg-gray-100 rounded-full transition active:scale-95">
           <MoreVertical className="h-5 w-5 text-gray-800" />
         </button>
       </div>
 
-      {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-3 space-y-2 bg-gray-50 scroll-smooth">
+      {/* Messages (Scrollable area) */}
+      {/* 🔥 FIX: px-3 diya hai aur space-y-3 kiya hai taaki messages ek dusre se chipke nahi */}
+      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-3 scroll-smooth">
         {(location.state || messages).map((msg, idx) => (
           <div
             key={idx}
@@ -566,14 +568,17 @@ useEffect(() => {
             }`}
           >
             <div
-              className={`px-4 py-2 rounded-2xl text-sm max-w-[75%] shadow ${
+              className={`px-4 py-2.5 rounded-2xl text-[14.5px] max-w-[80%] shadow-sm ${
                 String(msg.sender?._id || msg.sender) === String(currentUserId)
-                  ? "bg-blue-500 text-white rounded-br-none"
-                  : "bg-gray-200 text-gray-800 rounded-bl-none"
+                  ? "bg-blue-600 text-white rounded-br-md"
+                  : "bg-white text-gray-800 rounded-bl-md border border-gray-100"
               }`}
             >
-              {msg.content}
-              <div className="text-[10px] text-gray-500 mt-1 text-right">
+              <p className="leading-snug">{msg.content}</p>
+              {/* Time ko thoda transparent aur chota kiya hai */}
+              <div className={`text-[10px] mt-1 text-right ${
+                  String(msg.sender?._id || msg.sender) === String(currentUserId) ? "text-blue-200" : "text-gray-400"
+                }`}>
                 {new Date(msg.createdAt).toLocaleTimeString([], {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -582,13 +587,15 @@ useEffect(() => {
             </div>
           </div>
         ))}
-          <div ref={bottomRef} />
+        <div ref={bottomRef} className="h-1" />
       </div>
 
-      {/* Input Section */}
-    <div className="border-t border-gray-200 bg-white px-3 py-2 flex items-center gap-2"
-  style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
->
+      {/* Input Section (Fixed at bottom) */}
+      {/* 🔥 FIX: Safe area padding, shadow for depth, aur input ko clean kiya */}
+      <div 
+        className="bg-white px-3 py-3 flex items-end gap-2 border-t border-gray-200 shadow-[0_-2px_10px_rgba(0,0,0,0.05)]"
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom) + 12px)' }}
+      >
         <input
           type="text"
           value={message}
@@ -596,13 +603,13 @@ useEffect(() => {
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
           placeholder="Message..."
-          className="flex-1 px-4 py-2 rounded-full bg-gray-100 text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-400"
+          className="flex-1 px-4 py-2.5 rounded-3xl bg-gray-100 text-[15px] text-gray-800 placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all border border-transparent"
         />
         <button
           onClick={sendMessage}
-          className="p-2 text-blue-500 hover:scale-110 transition-transform"
+          className="p-2.5 mb-0.5 text-white bg-blue-600 rounded-full hover:bg-blue-700 active:scale-90 transition-all shadow-md"
         >
-          <SendHorizonal className="h-6 w-6" />
+          <SendHorizonal className="h-5 w-5 ml-0.5" /> {/* Icon ko center align kiya */}
         </button>
       </div>
     </div>
