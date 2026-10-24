@@ -10,19 +10,34 @@ const MainLayout = ({ children }) => {
   const location = useLocation();
 
   return (
-<div className="flex flex-col  min-h-screen">
+    // 1. Mobile par normal scroll (min-h-screen), Desktop par fix scroll (md:h-screen md:overflow-hidden)
+    <div className="flex flex-col min-h-screen md:h-screen md:overflow-hidden bg-gray-50">
+      
       <Header />
-      <div className="flex flex-1 ">
-        <Sidebar />
-        <div className="md:ml-64 flex-1  ">
-          {children}
-        </div>
-        <div className="">
-          <Suggest/>
-        </div>
-        {/* <Suggest /> */}
-        {!location.pathname.includes("/message") && <MobileTabs />}
 
+      {/* 2. Wrapper */}
+      <div className="flex flex-1 overflow-hidden relative">
+        
+        <Sidebar />
+
+        {/* 3. Content Area: Mobile par scroll normal rahega, Desktop par iske andar scroll hoga */}
+        <div className="md:ml-64 flex-1 overflow-y-auto h-full pb-20 md:pb-0">
+          <div className="">
+            {children}
+          </div>
+        </div>
+
+        {/* 4. Suggest Area: Sirf desktop par dikhega aur scroll hoga */}
+        <div className="">
+          <Suggest />
+        </div>
+        
+        {/* Mobile Tabs - Make sure yeh fixed ho */}
+        {!location.pathname.includes("/messages") && (
+          <div className="fixed bottom-0 w-full z-50 md:hidden">
+             <MobileTabs />
+          </div>
+        )}
         
       </div>
     </div>
@@ -30,4 +45,3 @@ const MainLayout = ({ children }) => {
 };
 
 export default MainLayout;
-
