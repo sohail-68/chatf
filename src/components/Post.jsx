@@ -114,7 +114,7 @@ const Post = ({ post, handleDeleteSuccess }) => {
 
   try {
     const res = await axios.post(
-      `http://localhost:5001/api/auth/bookmark/${postId}`,
+      `https://chatbackendnew-1.onrender.com/api/auth/bookmark/${postId}`,
       {},
       { headers: { Authorization: `${token}` } }
     );
