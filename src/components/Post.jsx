@@ -24,6 +24,8 @@ import { toast, ToastContainer } from "react-toastify"; // Toast notifications
 import "react-toastify/dist/ReactToastify.css"; // Toast styles
 const Post = ({ post, handleDeleteSuccess }) => {
   const [comment, setComment] = useState("");
+    const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [menu, setMenu] = useState(""); // Menu state for managing different UI views
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(post.likes.length);
@@ -97,27 +99,61 @@ const Post = ({ post, handleDeleteSuccess }) => {
     }
   };
 
-  const handleSave = async (data) => {
-    try {
-      const token = sessionStorage.getItem("token");
-      if (!token) throw new Error("User not authenticated");
-  
-      await axios.post(
-        `http://localhost:5001
-/api/auth/bookmark/${data}`,
-        {},
-        { headers: { Authorization: `${token}` } }
-      );
-  
-      // Toast notification for success
-      toast.success("Post bookmarked successfully!");
-    } catch (error) {
-      console.error("Error bookmarking post:", error);
-  
-      // Toast notification for error
-      toast.error("Failed to bookmark post. Please try again.");
+ const handleSave = async (postId) => {
+  if (isLoading) return;
+
+  const token = sessionStorage.getItem("token");
+  if (!token) {
+    toast.error("Please login to bookmark");
+    return;
+  }
+
+  setIsLoading(true);
+  const wasBookmarked = isBookmarked;
+  setIsBookmarked(!wasBookmarked); // optimistic
+
+  try {
+    const res = await axios.post(
+      `http://localhost:5001/api/auth/bookmark/${postId}`,
+      {},
+      { headers: { Authorization: `${token}` } }
+    );
+
+    // Server se aaya actual state use karo
+    const { bookmarked, message, success } = res.data;
+
+    if (!success) {
+      // Server ne fail bola (200 ke saath but logically fail) — rollback
+      setIsBookmarked(wasBookmarked);
+      toast.info(message || "Bookmark update failed");
+      return;
     }
-  };
+
+    // Server confirmed — trust server, not optimistic guess
+    setIsBookmarked(bookmarked);
+    toast.success(message || (bookmarked ? "Bookmarked!" : "Removed from bookmarks"));
+
+  } catch (error) {
+    console.error("Bookmark error:", error);
+
+    // Rollback to original state
+    setIsBookmarked(wasBookmarked);
+
+    // Axios error response — server ka message use karo
+    const serverMessage =
+      error.response?.data?.message ||
+      error.response?.data?.error;
+
+    // Agar "already bookmarked" type ki info hai, error toast mat dikhao
+    if (error.response?.status === 400 && serverMessage) {
+      toast.info(serverMessage);
+    } else {
+      toast.error(serverMessage || "Something went wrong. Please try again.");
+    }
+  } finally {
+    setIsLoading(false);
+  }
+};
   
 
   const toggleMenu = (newState) => {
@@ -230,11 +266,19 @@ const Post = ({ post, handleDeleteSuccess }) => {
       </button>
 
       <button
-        onClick={() => handleSave(post._id)}
-        className="p-1.5 hover:bg-gray-100 rounded-full transition-all transform hover:scale-105 ml-auto"
-      >
-        <Bookmark className="w-6 h-6 text-gray-700 transition" />
-      </button>
+      onClick={() => handleSave(post._id)}
+      disabled={isLoading}
+      className="p-1.5 hover:bg-gray-100 rounded-full transition-all transform hover:scale-105 ml-auto disabled:opacity-50"
+    >
+      {/* 4. Icon Conditionally render karo based on state */}
+      <Bookmark 
+        className={`w-6 h-6 transition-all duration-200 ${
+          isBookmarked 
+            ? "text-black fill-black scale-110" // Jab bookmark ho toh black aur filled
+            : "text-gray-700 fill-transparent"   // Jab na ho toh outline
+        }`} 
+      />
+    </button>
     </div>
 
     {/* Likes count */}
